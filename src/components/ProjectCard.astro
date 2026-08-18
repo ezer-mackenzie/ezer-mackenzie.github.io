@@ -3,23 +3,36 @@ interface Props {
   title: string;
   description: string;
   stack: string[];
-  href: string;
+  href?: string;
   category: string;
   accent: string;
+  visibility?: 'public' | 'private' | 'in-progress';
 }
 
-const { title, description, stack, href, category, accent } = Astro.props;
+const { title, description, stack, href, category, accent, visibility = 'public' } = Astro.props;
+
+const statusText =
+  visibility === 'public' ? 'Público' : visibility === 'private' ? 'Privado' : 'En desarrollo';
+const statusClass = visibility === 'public' ? 'public' : visibility === 'private' ? 'private' : 'progress';
 ---
 
 <article class="project-card" style={`--accent:${accent}`}>
   <div class="card-topline">
     <span class="category">{category}</span>
-    <a href={href} target="_blank" rel="noreferrer" aria-label={`Ver proyecto ${title}`}>
-      ↗
-    </a>
+    {href ? (
+      <a href={href} target="_blank" rel="noreferrer" aria-label={`Ver proyecto ${title}`}>
+        ↗
+      </a>
+    ) : (
+      <span class="status-pill {statusClass}">{statusText}</span>
+    )}
   </div>
   <h3>{title}</h3>
   <p>{description}</p>
+  <div class="project-meta">
+    <span class={`status-pill ${statusClass}`}>{statusText}</span>
+    {href ? <span class="repo-link">Repo público</span> : <span class="repo-link muted">Sin repositorio público</span>}
+  </div>
   <ul>
     {stack.map((item) => <li>{item}</li>)}
   </ul>
@@ -77,6 +90,55 @@ const { title, description, stack, href, category, accent } = Astro.props;
     color: #f8fafc;
     text-decoration: none;
     font-size: 1.1rem;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 0.34rem 0.66rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+  }
+
+  .status-pill.public {
+    background: rgba(52, 211, 153, 0.12);
+    border-color: rgba(52, 211, 153, 0.3);
+    color: #bbf7d0;
+  }
+
+  .status-pill.private {
+    background: rgba(248, 113, 113, 0.1);
+    border-color: rgba(248, 113, 113, 0.28);
+    color: #fecaca;
+  }
+
+  .status-pill.progress {
+    background: rgba(251, 191, 36, 0.12);
+    border-color: rgba(251, 191, 36, 0.28);
+    color: #fde68a;
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .repo-link {
+    color: #bfdbfe;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  .repo-link.muted {
+    color: #cbd5e1;
   }
 
   h3 {

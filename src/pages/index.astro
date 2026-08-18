@@ -4,7 +4,19 @@ import SectionHeader from '../components/SectionHeader.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import StackGroup from '../components/StackGroup.astro';
 
-const featuredProjects = [
+type ProjectVisibility = 'public' | 'private' | 'in-progress';
+
+interface FeaturedProject {
+  title: string;
+  description: string;
+  stack: string[];
+  href?: string;
+  category: string;
+  accent: string;
+  visibility: ProjectVisibility;
+}
+
+const featuredProjects: FeaturedProject[] = [
   {
     title: 'chile-aviation-analytics',
     description:
@@ -13,6 +25,7 @@ const featuredProjects = [
     href: 'https://github.com/ezer-mackenzie/chile-aviation-analytics',
     category: 'Data & Analytics',
     accent: '#7dd3fc',
+    visibility: 'public',
   },
   {
     title: 'bcch-sdk',
@@ -22,6 +35,7 @@ const featuredProjects = [
     href: 'https://github.com/ezer-mackenzie/bcch-sdk',
     category: 'Open Source',
     accent: '#a78bfa',
+    visibility: 'public',
   },
   {
     title: 'chile-public-market-sdk',
@@ -31,6 +45,7 @@ const featuredProjects = [
     href: 'https://github.com/ezer-mackenzie/chile-public-market-sdk',
     category: 'Developer Tooling',
     accent: '#34d399',
+    visibility: 'public',
   },
   {
     title: 'rut-validator',
@@ -40,6 +55,7 @@ const featuredProjects = [
     href: 'https://github.com/ezer-mackenzie/rut-validator',
     category: 'Utilities',
     accent: '#f9a8d4',
+    visibility: 'public',
   },
   {
     title: 'discord-rut-transformer',
@@ -49,6 +65,7 @@ const featuredProjects = [
     href: 'https://github.com/ezer-mackenzie/discord-rut-transformer',
     category: 'Bots',
     accent: '#fbbf24',
+    visibility: 'public',
   },
   {
     title: 'benchcore',
@@ -58,6 +75,7 @@ const featuredProjects = [
     href: 'https://github.com/ezer-mackenzie/benchcore',
     category: 'Performance',
     accent: '#38bdf8',
+    visibility: 'public',
   },
 ];
 
@@ -118,7 +136,14 @@ const currentBuilds = [
           <span class="brand-mark">ER</span>
           <span>Eli-ezer Ramírez</span>
         </a>
-        <nav class="nav" aria-label="Navegación principal">
+
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menú">
+          <span class="bar bar-1"></span>
+          <span class="bar bar-2"></span>
+          <span class="bar bar-3"></span>
+        </button>
+
+        <nav id="main-nav" class="nav" aria-label="Navegación principal">
           <a href="#about">Sobre mí</a>
           <a href="#projects">Proyectos</a>
           <a href="#stack">Stack</a>
@@ -205,6 +230,7 @@ const currentBuilds = [
                 href={project.href}
                 category={project.category}
                 accent={project.accent}
+                visibility={project.visibility}
               />
             ))}
           </div>
@@ -267,4 +293,29 @@ const currentBuilds = [
       </div>
     </footer>
   </div>
+
+  <script>
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.nav');
+
+    if (toggle && nav) {
+      const syncMenuState = (isOpen) => {
+        toggle.setAttribute('aria-expanded', String(isOpen));
+        toggle.classList.toggle('is-open', isOpen);
+        nav.classList.toggle('is-open', isOpen);
+        toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+      };
+
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        syncMenuState(!expanded);
+      });
+
+      nav.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          syncMenuState(false);
+        });
+      });
+    }
+  </script>
 </Layout>
