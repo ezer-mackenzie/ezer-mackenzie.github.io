@@ -294,12 +294,12 @@ const currentBuilds = [
     </footer>
   </div>
 
-  <script>
-    const toggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('.nav');
+  <script lang="ts">
+    const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+    const nav = document.querySelector<HTMLElement>('.nav');
 
     if (toggle && nav) {
-      const syncMenuState = (isOpen) => {
+      const syncMenuState = (isOpen: boolean) => {
         toggle.setAttribute('aria-expanded', String(isOpen));
         toggle.classList.toggle('is-open', isOpen);
         nav.classList.toggle('is-open', isOpen);
@@ -311,7 +311,7 @@ const currentBuilds = [
         syncMenuState(!expanded);
       });
 
-      nav.querySelectorAll('a').forEach((link) => {
+      nav.querySelectorAll<HTMLAnchorElement>('a').forEach((link) => {
         link.addEventListener('click', () => {
           syncMenuState(false);
         });
