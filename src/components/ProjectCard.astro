@@ -1,0 +1,113 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  stack: string[];
+  href: string;
+  category: string;
+  accent: string;
+}
+
+const { title, description, stack, href, category, accent } = Astro.props;
+---
+
+<article class="project-card" style={`--accent:${accent}`}>
+  <div class="card-topline">
+    <span class="category">{category}</span>
+    <a href={href} target="_blank" rel="noreferrer" aria-label={`Ver proyecto ${title}`}>
+      ↗
+    </a>
+  </div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <ul>
+    {stack.map((item) => <li>{item}</li>)}
+  </ul>
+</article>
+
+<style>
+  .project-card {
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-top: 3px solid var(--accent);
+    border-radius: 1.25rem;
+    padding: 1.4rem 1.4rem 1.2rem;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.22);
+    transition:
+      transform 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(125, 211, 252, 0.55);
+    box-shadow: 0 16px 36px rgba(34, 211, 238, 0.12);
+  }
+
+  .card-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .category {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.36rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(125, 211, 252, 0.08);
+    border: 1px solid rgba(125, 211, 252, 0.2);
+    color: #c9f0ff;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .card-topline a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.15rem;
+    height: 2.15rem;
+    border-radius: 50%;
+    background: rgba(148, 163, 184, 0.08);
+    color: #f8fafc;
+    text-decoration: none;
+    font-size: 1.1rem;
+  }
+
+  h3 {
+    margin: 0 0 0.7rem;
+    font-size: 1.55rem;
+    letter-spacing: -0.04em;
+  }
+
+  p {
+    margin: 0;
+    color: #dbeafe;
+    line-height: 1.7;
+    min-height: 5rem;
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding: 0;
+    margin: 1.2rem 0 0;
+  }
+
+  li {
+    padding: 0.4rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(15, 23, 42, 0.8);
+    color: #bfdbfe;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+</style>

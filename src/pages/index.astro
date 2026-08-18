@@ -1,11 +1,270 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import StackGroup from '../components/StackGroup.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const featuredProjects = [
+  {
+    title: 'chile-aviation-analytics',
+    description:
+      'Proyecto de análisis y transformación de datasets chilenos de aviación para workflows analíticos, visualización de tendencias y estudios sectoriales.',
+    stack: ['Python', 'Data Analytics', 'Pandas'],
+    href: 'https://github.com/ezer-mackenzie/chile-aviation-analytics',
+    category: 'Data & Analytics',
+    accent: '#7dd3fc',
+  },
+  {
+    title: 'bcch-sdk',
+    description:
+      'SDK de Python para acceder series macroeconómicas del Banco Central de Chile con clientes sincrónicos y asíncronos, modelos tipados y soporte nativo para Pandas y Polars.',
+    stack: ['Python', 'Pandas', 'Polars', 'AsyncIO'],
+    href: 'https://github.com/ezer-mackenzie/bcch-sdk',
+    category: 'Open Source',
+    accent: '#a78bfa',
+  },
+  {
+    title: 'chile-public-market-sdk',
+    description:
+      'SDK para simplificar el acceso a datos de compras públicas chilenas y crear apps con una capa más amigable para desarrolladores.',
+    stack: ['Python', 'APIs', 'Public Data'],
+    href: 'https://github.com/ezer-mackenzie/chile-public-market-sdk',
+    category: 'Developer Tooling',
+    accent: '#34d399',
+  },
+  {
+    title: 'rut-validator',
+    description:
+      'Librería ligera para validar, normalizar y formatear RUTs chilenos con verificación módulo 11 y foco en robustez y simplicidad.',
+    stack: ['Python', 'PyPI', 'Validation'],
+    href: 'https://github.com/ezer-mackenzie/rut-validator',
+    category: 'Utilities',
+    accent: '#f9a8d4',
+  },
+  {
+    title: 'discord-rut-transformer',
+    description:
+      'Transformador reutilizable para comandos de Discord que integra validación de RUT y automatización de workflows en bots.',
+    stack: ['Python', 'discord.py', 'Automation'],
+    href: 'https://github.com/ezer-mackenzie/discord-rut-transformer',
+    category: 'Bots',
+    accent: '#fbbf24',
+  },
+  {
+    title: 'benchcore',
+    description:
+      'Framework ligero para benchmarking de ejecución, recolección de resultados y construcción de flujos personalizados de medición.',
+    stack: ['Python', 'Benchmarking', 'PyPI'],
+    href: 'https://github.com/ezer-mackenzie/benchcore',
+    category: 'Performance',
+    accent: '#38bdf8',
+  },
+];
+
+const stackGroups = [
+  {
+    title: 'Data & Analytics',
+    items: ['Python', 'Pandas', 'Polars', 'SQL', 'Data Analysis', 'Data Processing'],
+  },
+  {
+    title: 'Backend & APIs',
+    items: ['FastAPI', 'NestJS', 'Node.js', 'REST APIs', 'Microservices', 'Redis'],
+  },
+  {
+    title: 'Frontend',
+    items: ['Angular', 'Next.js', 'React', 'TypeScript', 'HTML/CSS', 'Tailwind CSS'],
+  },
+  {
+    title: 'Databases',
+    items: ['PostgreSQL', 'SQL Server', 'MySQL', 'MongoDB', 'Firebase', 'SQLite'],
+  },
+  {
+    title: 'Cloud & DevOps',
+    items: ['Docker', 'Kubernetes', 'AWS', 'GCP', 'Vercel', 'NGINX', 'Git', 'CI/CD', 'Linux'],
+  },
+  {
+    title: 'Other',
+    items: ['Kotlin', 'Odin'],
+  },
+];
+
+const currentBuilds = [
+  {
+    title: 'Mercado Público Platform',
+    description:
+      'Ecosistema de herramientas para hacer más accesible, searchable y útil la información de compras públicas en Chile.',
+    tag: 'Python · FastAPI · Discord · Public APIs',
+  },
+  {
+    title: 'BCCh Data Platform',
+    description:
+      'Herramientas para consultar y explotar indicadores económicos oficiales del Banco Central de Chile con mayor facilidad.',
+    tag: 'Python · FastAPI · Pandas · Polars · Economic Data',
+  },
+  {
+    title: 'Data operations & automation',
+    description:
+      'Flujos de extracción, modelado y automatización para transformar datos complejos en servicios útiles y mantenibles.',
+    tag: 'Automation · Data · APIs · Dev Tools',
+  },
+];
 ---
 
 <Layout>
-	<Welcome />
+  <div class="site-shell">
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="#home">
+          <span class="brand-mark">ER</span>
+          <span>Eli-ezer Ramírez</span>
+        </a>
+        <nav class="nav" aria-label="Navegación principal">
+          <a href="#about">Sobre mí</a>
+          <a href="#projects">Proyectos</a>
+          <a href="#stack">Stack</a>
+          <a href="#contact">Contacto</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="kicker">Software Engineer · Chile</span>
+            <h1>
+              Construyo software para <span class="highlight">dar sentido a los datos</span>
+            </h1>
+            <p class="hero-copy">
+              Soy Eli-ezer Ramírez, un Software Engineer de Santiago, Chile, interesado en Data Science,
+              Data Engineering, backend y open source. Me apasiona transformar información compleja en
+              herramientas útiles para personas, equipos y negocios.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#projects">Ver proyectos</a>
+              <a class="btn btn-secondary" href="https://www.linkedin.com/in/eli-ezer-ramirez" target="_blank" rel="noreferrer">LinkedIn</a>
+            </div>
+
+            <div class="hero-metrics" aria-label="estadísticas de perfil">
+              <div class="metric">
+                <strong>+10</strong>
+                <span>Repos</span>
+              </div>
+              <div class="metric">
+                <strong>Data</strong>
+                <span>Focus</span>
+              </div>
+              <div class="metric">
+                <strong>Open</strong>
+                <span>Source</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="profile-card" aria-label="Perfil profesional">
+            <div class="profile-glow"></div>
+            <div class="card-panel">
+              <div class="avatar" aria-hidden="true">👨‍💻</div>
+              <div class="status-row">
+                <strong>Disponible para colaborar</strong>
+                <span class="online-dot" aria-label="online"></span>
+              </div>
+              <p class="profile-summary">
+                Trabajo especialmente con datos públicos y económicos chilenos, mientras exploro aplicaciones
+                de software y análisis en finanzas, minería, servicios públicos y aviación.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="container">
+          <SectionHeader
+            eyebrow="Sobre mí"
+            title="Software con propósito, datos con impacto y productos que resuelven problemas reales."
+            description="Mi trabajo se centra en construir herramientas, APIs y librerías que conviertan datasets complejos en accesibles y accionables. Me interesa especialmente el problema de convertir información pública o económica en soluciones prácticas para desarrolladores, analistas y usuarios finales."
+          />
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="container">
+          <SectionHeader
+            eyebrow="Proyectos"
+            title="Librerías, APIs y proyectos de datos que impulsan ideas y automatización."
+            description="Un conjunto de iniciativas enfocadas en datos públicos, herramientas para desarrolladores, análisis y automatización de workflows con un enfoque práctico y reutilizable."
+          />
+
+          <div class="projects-grid">
+            {featuredProjects.map((project) => (
+              <ProjectCard
+                title={project.title}
+                description={project.description}
+                stack={project.stack}
+                href={project.href}
+                category={project.category}
+                accent={project.accent}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="building" class="section">
+        <div class="container">
+          <SectionHeader
+            eyebrow="Actualmente construyendo"
+            title="Ecosistemas y servicios que vuelven más fácil el acceso a datos públicos y económicos."
+          />
+
+          <div class="building-grid">
+            {currentBuilds.map((item) => (
+              <article class="build-item">
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <span class="tag">{item.tag}</span>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="stack" class="section">
+        <div class="container">
+          <SectionHeader
+            eyebrow="Tech Stack"
+            title="Una base sólida para datos, backend y productos de software."
+            description="Combino herramientas de análisis, backend, frontend y despliegue para construir soluciones integrales, mantenibles y útiles en la práctica."
+          />
+
+          <div class="stack-grid">
+            {stackGroups.map((group) => <StackGroup title={group.title} items={group.items} />)}
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="container">
+          <div class="contact-box">
+            <div class="contact-copy">
+              <h3>Hablemos de datos, software y colaboraciones.</h3>
+              <p>Estoy abierto a proyectos de open source, backend, data, APIs y soluciones con impacto real.</p>
+            </div>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="https://www.linkedin.com/in/eli-ezer-ramirez" target="_blank" rel="noreferrer">Conectar en LinkedIn</a>
+              <a class="btn btn-secondary" href="https://github.com/ezer-mackenzie" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <span>© 2026 Eli-ezer Ramírez</span>
+        <span>Software Engineer · Data · Backend · Open Source</span>
+      </div>
+    </footer>
+  </div>
 </Layout>

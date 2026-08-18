@@ -1,0 +1,49 @@
+---
+interface Props {
+  title: string;
+  items: string[];
+}
+
+const { title, items } = Astro.props;
+---
+
+<div class="stack-group">
+  <h3>{title}</h3>
+  <div class="pill-list">
+    {items.map((item) => <span>{item}</span>)}
+  </div>
+</div>
+
+<style>
+  .stack-group {
+    background: rgba(15, 23, 42, 0.68);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    border-radius: 1.2rem;
+    padding: 1.2rem 1.2rem 1.1rem;
+  }
+
+  h3 {
+    margin: 0 0 0.85rem;
+    font-size: 1.05rem;
+    letter-spacing: -0.03em;
+  }
+
+  .pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.46rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(96, 165, 250, 0.08);
+    border: 1px solid rgba(147, 197, 253, 0.22);
+    color: #dbeafe;
+    font-size: 0.76rem;
+    font-weight: 700;
+  }
+</style>
