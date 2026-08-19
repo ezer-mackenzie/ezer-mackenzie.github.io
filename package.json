@@ -1,11 +1,15 @@
 {
   "name": "ezer-mackenzie.github.io",
+  "description": "Personal website for Eli-ezer Ramírez",
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "engines": {
-    "node": ">=22.12.0"
+  "license": "MIT",
+  "author": {
+    "name": "Eli-ezer Reuven Ramirez Ruiz",
+    "email": "ramirez.ruiz.eliezer.reuven@gmail.com"
   },
+  "packageManager": "bun@1.3.14",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
