@@ -1,0 +1,14 @@
+{
+    "git.addAICoAuthor": "chatAndAgent",
+    "editor.formatOnSave": true,
+    "files.eol": "\n",
+    "terminal.integrated.defaultProfile.linux": "fish",
+    "npm.packageManager": "bun",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "astro.typescript.enable": true,
+    "search.exclude": {
+        "**/dist": true,
+        "**/.astro": true,
+        "**/.vercel": true
+    }
+}
