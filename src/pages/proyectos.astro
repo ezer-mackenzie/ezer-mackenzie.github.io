@@ -1,0 +1,338 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+
+const pageTitle = 'Portfolio de proyectos | Eli-ezer Ramírez';
+const pageDescription =
+  'Portfolio de proyectos de Eli-ezer Ramírez: APIs, Python, data engineering, analytics, automatización y software open source.';
+
+const projects = [
+  {
+    title: 'chile-aviation-analytics',
+    category: 'Data & Analytics',
+    description:
+      'Análisis y transformación de datasets de aviación en Chile para estudios sectoriales, visualización de tendencias y workflows analíticos reproducibles.',
+    stack: ['Python', 'Pandas', 'Data Analysis', 'Visualization'],
+    href: 'https://github.com/ezer-mackenzie/chile-aviation-analytics',
+  },
+  {
+    title: 'bcch-sdk',
+    category: 'Open Source',
+    description:
+      'SDK de Python para acceder series macroeconómicas del Banco Central de Chile con clientes sincrónicos y asíncronos, modelos tipados y soporte para Pandas y Polars.',
+    stack: ['Python', 'Polars', 'Pandas', 'AsyncIO'],
+    href: 'https://github.com/ezer-mackenzie/bcch-sdk',
+  },
+  {
+    title: 'chile-public-market-sdk',
+    category: 'Developer Tooling',
+    description:
+      'SDK para consultar compras públicas chilenas con una capa más amigable para desarrolladores y flujos analíticos y de integración.',
+    stack: ['Python', 'APIs', 'Public Data', 'Developer Tools'],
+    href: 'https://github.com/ezer-mackenzie/chile-public-market-sdk',
+  },
+  {
+    title: 'rut-validator',
+    category: 'Utilities',
+    description:
+      'Validación robusta y reutilizable de RUTs chilenos con normalización, formateo y verificación de módulo 11.',
+    stack: ['Python', 'Validation', 'PyPI', 'Utilities'],
+    href: 'https://github.com/ezer-mackenzie/rut-validator',
+  },
+  {
+    title: 'discord-rut-transformer',
+    category: 'Automation',
+    description:
+      'Herramienta reutilizable para bots de Discord con validación de RUT y automatización de workflows de productividad.',
+    stack: ['Python', 'discord.py', 'Automation', 'Bots'],
+    href: 'https://github.com/ezer-mackenzie/discord-rut-transformer',
+  },
+  {
+    title: 'benchcore',
+    category: 'Performance',
+    description:
+      'Framework ligero para benchmarking, recolección de resultados y creación de métricas de rendimiento aplicables a flujos reales.',
+    stack: ['Python', 'Benchmarking', 'PyPI', 'Performance'],
+    href: 'https://github.com/ezer-mackenzie/benchcore',
+  },
+];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Inicio',
+      item: 'https://ezer-mackenzie.github.io/',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Portfolio de proyectos',
+      item: 'https://ezer-mackenzie.github.io/proyectos',
+    },
+  ],
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Eli-ezer Ramírez',
+  url: 'https://ezer-mackenzie.github.io/',
+  sameAs: [
+    'https://www.linkedin.com/in/eli-ezer-ramirez',
+    'https://github.com/ezer-mackenzie',
+  ],
+  description:
+    'Portfolio y proyectos de software, data engineering y soluciones open source desarrollados por Eli-ezer Ramírez.',
+};
+---
+
+<Layout title={pageTitle} description={pageDescription} canonicalURL="https://ezer-mackenzie.github.io/proyectos" image="/favicon.svg">
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+
+  <div class="site-shell">
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="/">
+          <span class="brand-mark">ER</span>
+          <span>Eli-ezer Ramírez</span>
+        </a>
+
+        <nav id="main-nav" class="nav" aria-label="Navegación principal">
+          <a href="/">Inicio</a>
+          <a href="/proyectos">Portfolio</a>
+          <a href="/#stack">Stack</a>
+          <a href="/#contact">Contacto</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="container">
+          <SectionHeader
+            eyebrow="Portfolio"
+            title="Proyectos, herramientas y soluciones de software con impacto real."
+            description="Una selección de proyectos centrados en datos, APIs, automatización, infraestructura y software open source para resolver problemas concretos con velocidad y claridad."
+          />
+
+          <div class="projects-grid">
+            {projects.map((project) => (
+              <article class="project-card" aria-label={project.title}>
+                <div class="card-topline">
+                  <span class="category">{project.category}</span>
+                  <a href={project.href} target="_blank" rel="noreferrer" aria-label={`Abrir proyecto ${project.title}`}>
+                    ↗
+                  </a>
+                </div>
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
+                <ul>
+                  {project.stack.map((item) => <li>{item}</li>)}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <span>© 2026 Eli-ezer Ramírez</span>
+        <span>Portfolio de proyectos · Data · Backend · Open Source</span>
+      </div>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .project-card {
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 1.25rem;
+    padding: 1.4rem 1.4rem 1.2rem;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.22);
+  }
+
+  .card-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .category {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.36rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(125, 211, 252, 0.08);
+    border: 1px solid rgba(125, 211, 252, 0.2);
+    color: #c9f0ff;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .card-topline a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.15rem;
+    height: 2.15rem;
+    border-radius: 50%;
+    background: rgba(148, 163, 184, 0.08);
+    color: #f8fafc;
+    text-decoration: none;
+    font-size: 1.1rem;
+  }
+
+  h3 {
+    margin: 0 0 0.7rem;
+    font-size: 1.55rem;
+    letter-spacing: -0.04em;
+  }
+
+  p {
+    margin: 0;
+    color: #dbeafe;
+    line-height: 1.7;
+    min-height: 5rem;
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding: 0;
+    margin: 1.2rem 0 0;
+  }
+
+  li {
+    padding: 0.4rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    background: rgba(15, 23, 42, 0.8);
+    color: #bfdbfe;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+  }
+
+  .section {
+    padding: 4.5rem 0;
+  }
+
+  .site-shell {
+    min-height: 100vh;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(18px);
+    background: rgba(2, 8, 23, 0.58);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  }
+
+  .topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 4.4rem;
+    gap: 1rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+  }
+
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 0.75rem;
+    color: #0f172a;
+    background: linear-gradient(135deg, #7dd3fc, #d8b4fe);
+    font-size: 0.8rem;
+    box-shadow: 0 10px 24px rgba(125, 211, 252, 0.35);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    color: #dbeafe;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.55rem 0.82rem;
+    border-radius: 999px;
+    transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  .nav a:hover {
+    color: white;
+    background: rgba(148, 163, 184, 0.08);
+    border-color: rgba(148, 163, 184, 0.18);
+  }
+
+  .site-footer {
+    padding: 2rem 0 4rem;
+    color: #cbd5e1;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+    padding-top: 1.3rem;
+  }
+
+  @media (max-width: 980px) {
+    .projects-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .topbar-inner,
+    .footer-inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

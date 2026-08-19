@@ -1,0 +1,157 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { posts } from '../../data/blog';
+
+export async function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const pageTitle = `${post.title} | Blog | Eli-ezer Ramírez`;
+const pageDescription = post.description;
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.title,
+  description: post.description,
+  datePublished: post.date,
+  author: {
+    '@type': 'Person',
+    name: 'Eli-ezer Ramírez',
+    url: 'https://ezer-mackenzie.github.io/',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Eli-ezer Ramírez',
+    url: 'https://ezer-mackenzie.github.io/',
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `https://ezer-mackenzie.github.io/blog/${post.slug}`,
+  },
+  articleSection: post.category,
+  wordCount: post.sections.reduce((count, section) => count + section.paragraphs.join(' ').split(' ').length, 0),
+};
+---
+
+<Layout title={pageTitle} description={pageDescription} canonicalURL={`https://ezer-mackenzie.github.io/blog/${post.slug}`} image="/favicon.svg">
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <article class="article-shell">
+    <header class="article-header">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/">Inicio</a>
+          <span>/</span>
+          <a href="/proyectos">Portfolio</a>
+          <span>/</span>
+          <span>{post.title}</span>
+        </nav>
+
+        <span class="tag">{post.category}</span>
+        <h1>{post.title}</h1>
+        <p class="excerpt">{post.excerpt}</p>
+        <div class="meta">
+          <time datetime={post.date}>{new Date(post.date).toLocaleDateString('es-CL', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+          <span>·</span>
+          <span>{post.readingTime}</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="container article-body">
+      {post.sections.map((section) => (
+        <section>
+          <h2>{section.heading}</h2>
+          {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        </section>
+      ))}
+    </main>
+  </article>
+</Layout>
+
+<style>
+  .article-shell {
+    padding: 3rem 0 5rem;
+  }
+
+  .article-header {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  }
+
+  .crumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: #cbd5e1;
+    font-size: 0.8rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .crumbs a {
+    color: #7dd3fc;
+    text-decoration: none;
+  }
+
+  h1 {
+    margin: 0.8rem 0 0.7rem;
+    font-size: clamp(2.3rem, 5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.06em;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.38rem 0.7rem;
+    font-size: 0.72rem;
+    background: rgba(167, 139, 250, 0.12);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    color: #e9d5ff;
+  }
+
+  .excerpt {
+    margin: 0;
+    max-width: 55rem;
+    color: #dbeafe;
+    font-size: 1.08rem;
+    line-height: 1.8;
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+  }
+
+  .article-body {
+    padding-top: 2rem;
+  }
+
+  .article-body section {
+    margin-bottom: 2.25rem;
+  }
+
+  .article-body h2 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.5rem, 2vw, 2.2rem);
+    letter-spacing: -0.05em;
+  }
+
+  .article-body p {
+    margin: 0 0 1rem;
+    color: #dbeafe;
+    font-size: 1.02rem;
+    line-height: 1.9;
+    max-width: 68ch;
+  }
+</style>

@@ -1,8 +1,52 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
-import ProjectCard from '../components/ProjectCard.astro';
 import StackGroup from '../components/StackGroup.astro';
+
+const pageTitle = 'Eli-ezer Ramírez | Software Engineer, Data Engineer & Python Developer';
+const pageDescription =
+  'Software Engineer y Data Engineer en Chile especializado en Python, APIs, datos, backend, automatización y proyectos open source con impacto real. Portfolio profesional de Eli-ezer Ramírez.';
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Eli-ezer Ramírez',
+  url: 'https://ezer-mackenzie.github.io/',
+  inLanguage: 'es-CL',
+  description:
+    'Portfolio profesional de Eli-ezer Ramírez, Software Engineer y Data Engineer especializado en Python, backend, APIs y datos.',
+  publisher: {
+    '@type': 'Person',
+    name: 'Eli-ezer Ramírez',
+  },
+};
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Eli-ezer Ramírez',
+  jobTitle: 'Software Engineer',
+  description:
+    'Software Engineer y Data Engineer en Chile con enfoque en Python, APIs, automatización, datos y soluciones open source.',
+  url: 'https://ezer-mackenzie.github.io/',
+  sameAs: [
+    'https://www.linkedin.com/in/eli-ezer-ramirez',
+    'https://github.com/ezer-mackenzie',
+  ],
+  knowsAbout: [
+    'Data Engineering',
+    'Software Development',
+    'Backend APIs',
+    'Data Analytics',
+    'Python Development',
+    'Open Source',
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'CL',
+    addressLocality: 'Santiago',
+  },
+};
 
 type ProjectVisibility = 'public' | 'private' | 'in-progress';
 
@@ -79,6 +123,13 @@ const featuredProjects: FeaturedProject[] = [
   },
 ];
 
+const projectQuickLinks = featuredProjects.map((project) => ({
+  title: project.title,
+  href: project.href ?? '/proyectos',
+  description: project.description,
+  external: project.href?.startsWith('http') ?? false,
+}));
+
 const stackGroups = [
   {
     title: 'Data & Analytics',
@@ -126,9 +177,44 @@ const currentBuilds = [
     tag: 'Automation · Data · APIs · Dev Tools',
   },
 ];
+
+const faqEntries = [
+  {
+    question: '¿Qué tipo de software construye Eli-ezer Ramírez?',
+    answer:
+      'Construye soluciones en Python, APIs, data engineering, automatización y herramientas open source orientadas a datos y productos útiles para usuarios y equipos.',
+  },
+  {
+    question: '¿En qué áreas tiene experiencia?',
+    answer:
+      'Tiene experiencia en datos públicos, analítica, backend, automatización de procesos, integración de APIs, desarrollo de librerías y herramientas para desarrolladores.',
+  },
+  {
+    question: '¿Trabaja con proyectos de datos y open source?',
+    answer:
+      'Sí. Gran parte de su trabajo se centra en datos, herramientas reutilizables, código abierto y soluciones técnicas con impacto real en Chile y ecosistemas de datos.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqEntries.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
 ---
 
-<Layout>
+<Layout title={pageTitle} description={pageDescription} canonicalURL="https://ezer-mackenzie.github.io/" image="/favicon.svg">
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
   <div class="site-shell">
     <header class="topbar">
       <div class="container topbar-inner">
@@ -145,7 +231,7 @@ const currentBuilds = [
 
         <nav id="main-nav" class="nav" aria-label="Navegación principal">
           <a href="#about">Sobre mí</a>
-          <a href="#projects">Proyectos</a>
+          <a href="/proyectos">Portfolio</a>
           <a href="#stack">Stack</a>
           <a href="#contact">Contacto</a>
         </nav>
@@ -166,7 +252,7 @@ const currentBuilds = [
               herramientas útiles para personas, equipos y negocios.
             </p>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="#projects">Ver proyectos</a>
+              <a class="btn btn-primary" href="/proyectos">Ver portfolio de proyectos</a>
               <a class="btn btn-secondary" href="https://www.linkedin.com/in/eli-ezer-ramirez" target="_blank" rel="noreferrer">LinkedIn</a>
             </div>
 
@@ -221,18 +307,29 @@ const currentBuilds = [
             description="Un conjunto de iniciativas enfocadas en datos públicos, herramientas para desarrolladores, análisis y automatización de workflows con un enfoque práctico y reutilizable."
           />
 
-          <div class="projects-grid">
-            {featuredProjects.map((project) => (
-              <ProjectCard
-                title={project.title}
-                description={project.description}
-                stack={project.stack}
-                href={project.href}
-                category={project.category}
-                accent={project.accent}
-                visibility={project.visibility}
-              />
-            ))}
+          <div class="project-preview-tools">
+            <div class="project-list" aria-label="Proyectos destacados">
+              {projectQuickLinks.map((project, index) => (
+                <div class="project-list-item">
+                  <input
+                    type="radio"
+                    name="project-accordion"
+                    id={`project-${index}`}
+                    checked={index === 0}
+                  />
+                  <label class="project-trigger" for={`project-${index}`}>
+                    <span>{project.title}</span>
+                    <span class="summary-icon" aria-hidden="true">+</span>
+                  </label>
+                  <div class="project-item-content">
+                    <p>{project.description}</p>
+                    <a href={project.href} target={project.external ? '_blank' : undefined} rel={project.external ? 'noreferrer' : undefined}>
+                      {project.external ? 'Ver proyecto' : 'Saber más'}
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -270,6 +367,25 @@ const currentBuilds = [
         </div>
       </section>
 
+      <section id="faq" class="section">
+        <div class="container">
+          <SectionHeader
+            eyebrow="FAQ"
+            title="Preguntas frecuentes sobre mi trabajo y especialidad."
+            description="Respuestas rápidas para entender mi enfoque, áreas de especialización y el tipo de soluciones que construyo."
+          />
+
+          <div class="faq-grid">
+            {faqEntries.map((item) => (
+              <article class="faq-item">
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="contact" class="section">
         <div class="container">
           <div class="contact-box">
@@ -278,8 +394,8 @@ const currentBuilds = [
               <p>Estoy abierto a proyectos de open source, backend, data, APIs y soluciones con impacto real.</p>
             </div>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="https://www.linkedin.com/in/eli-ezer-ramirez" target="_blank" rel="noreferrer">Conectar en LinkedIn</a>
-              <a class="btn btn-secondary" href="https://github.com/ezer-mackenzie" target="_blank" rel="noreferrer">GitHub</a>
+              <a class="btn btn-primary" href="https://www.linkedin.com/in/eli-ezer-ramirez" target="_blank" rel="noreferrer">Contactar por LinkedIn</a>
+              <a class="btn btn-secondary" href="https://github.com/ezer-mackenzie" target="_blank" rel="noreferrer">Ver perfil de GitHub</a>
             </div>
           </div>
         </div>
@@ -299,7 +415,7 @@ const currentBuilds = [
     const nav = document.querySelector<HTMLElement>('.nav');
 
     if (toggle && nav) {
-      const syncMenuState = (isOpen) => {
+      const syncMenuState = (isOpen: boolean): void => {
         toggle.setAttribute('aria-expanded', String(isOpen));
         toggle.classList.toggle('is-open', isOpen);
         nav.classList.toggle('is-open', isOpen);
@@ -317,5 +433,6 @@ const currentBuilds = [
         });
       });
     }
+
   </script>
 </Layout>

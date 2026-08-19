@@ -4,9 +4,25 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  canonicalURL?: string;
+  image?: string;
 }
 
-const { title = 'Eli-ezer Ramírez | Software Engineer', description = 'Portfolio personal de Eli-ezer Ramírez, Software Engineer enfocado en datos, backend, APIs y open source.' } = Astro.props;
+const defaultTitle = 'Eli-ezer Ramírez | Software Engineer & Data Engineer';
+const defaultDescription =
+  'Software Engineer y Data Engineer en Chile especializado en Python, APIs, datos, backend, automatización y productos open source con impacto real.';
+
+const {
+  title = defaultTitle,
+  description = defaultDescription,
+  canonicalURL,
+  image = '/favicon.svg',
+} = Astro.props;
+
+const siteUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : 'https://ezer-mackenzie.github.io';
+const resolvedCanonicalUrl = canonicalURL ?? siteUrl;
+const resolvedImage = new URL(image, Astro.site ?? 'https://ezer-mackenzie.github.io').toString();
+const fullTitle = title.includes('Eli-ezer Ramírez') ? title : `${title} | Eli-ezer Ramírez`;
 ---
 
 <!doctype html>
@@ -15,15 +31,34 @@ const { title = 'Eli-ezer Ramírez | Software Engineer', description = 'Portfoli
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="author" content="Eli-ezer Ramírez" />
+    <meta name="keywords" content="Eli-ezer Ramírez, Software Engineer, Data Engineer, Python, APIs, Backend, Data Analytics, Open Source, Chile" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <meta name="theme-color" content="#0D3B52" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={resolvedCanonicalUrl} />
+    <meta property="og:image" content={resolvedImage} />
+    <meta property="og:image:alt" content={fullTitle} />
+    <meta property="og:site_name" content="Eli-ezer Ramírez" />
+    <meta property="og:locale" content="es_CL" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={resolvedImage} />
+
+    <link rel="canonical" href={resolvedCanonicalUrl} />
+    <title>{fullTitle}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="alternate icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.webmanifest">
-    <meta name="theme-color" content="#0D3B52">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
