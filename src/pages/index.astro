@@ -299,7 +299,7 @@ const currentBuilds = [
     const nav = document.querySelector<HTMLElement>('.nav');
 
     if (toggle && nav) {
-      const syncMenuState = (isOpen: boolean) => {
+      const syncMenuState = (isOpen) => {
         toggle.setAttribute('aria-expanded', String(isOpen));
         toggle.classList.toggle('is-open', isOpen);
         nav.classList.toggle('is-open', isOpen);
